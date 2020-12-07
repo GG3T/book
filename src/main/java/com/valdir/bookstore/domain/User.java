@@ -18,7 +18,7 @@ import javax.persistence.OneToMany;
 import com.valdir.bookstore.enums.Gender;
 
 @Entity
-public class User implements Serializable {
+public class User extends Auditable implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
