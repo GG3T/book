@@ -12,7 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Book implements Serializable {
+public class Book extends Auditable implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
