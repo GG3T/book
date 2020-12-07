@@ -1,20 +1,45 @@
 package com.valdir.bookstore.domain;
 
+import java.io.Serializable;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
-public class Book {
+public class Book implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+
+	@Column(nullable = false, unique = true)
 	private String name;
+
+	@Column(nullable = false, unique = true)
 	private Integer isbn;
+
+	@Column(nullable = false)
 	private Integer pages;
+
+	@Column(nullable = false)
 	private Integer chapters;
+
+	@ManyToOne(cascade = { CascadeType.MERGE })
+	private Author author;
+
+	@ManyToOne(cascade = { CascadeType.MERGE })
+	private User user;
+
+	@ManyToOne(cascade = { CascadeType.MERGE })
+	private Publisher publisher;
 
 	public Book() {
 		super();
@@ -67,6 +92,30 @@ public class Book {
 
 	public void setChapters(Integer chapters) {
 		this.chapters = chapters;
+	}
+
+	public Author getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(Author author) {
+		this.author = author;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Publisher getPublisher() {
+		return publisher;
+	}
+
+	public void setPublisher(Publisher publisher) {
+		this.publisher = publisher;
 	}
 
 	@Override
