@@ -1,22 +1,34 @@
 package com.valdir.bookstore.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Author implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+
+	@Column(nullable = false, unique = true)
 	private String name;
+
+	@Column(columnDefinition = "integer default 0")
 	private Integer age;
+
+	@OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
+	private List<Book> books = new ArrayList<>();
 
 	public Author() {
 		super();
@@ -51,6 +63,14 @@ public class Author implements Serializable {
 
 	public void setAge(Integer age) {
 		this.age = age;
+	}
+
+	public List<Book> getBooks() {
+		return books;
+	}
+
+	public void setBooks(List<Book> books) {
+		this.books = books;
 	}
 
 	@Override

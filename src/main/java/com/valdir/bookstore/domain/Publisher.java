@@ -1,21 +1,38 @@
 package com.valdir.bookstore.domain;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
-public class Publisher {
+public class Publisher implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+
+	@Column(nullable = false, unique = true)
 	private String name;
+
+	@Column(nullable = false, unique = true, length = 100)
 	private Integer code;
+
+	@Column(nullable = false, columnDefinition = "TIMESTAMP")
 	private Date foundation_date;
+
+	@OneToMany(mappedBy = "publisher", fetch = FetchType.LAZY)
+	private List<Book> books = new ArrayList<>();
 
 	public Publisher() {
 		super();
@@ -59,6 +76,14 @@ public class Publisher {
 
 	public void setFoundation_date(Date foundation_date) {
 		this.foundation_date = foundation_date;
+	}
+
+	public List<Book> getBooks() {
+		return books;
+	}
+
+	public void setBooks(List<Book> books) {
+		this.books = books;
 	}
 
 	@Override

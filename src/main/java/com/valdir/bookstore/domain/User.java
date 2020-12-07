@@ -1,38 +1,71 @@
 package com.valdir.bookstore.domain;
 
-import java.util.Date;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import com.valdir.bookstore.enums.Gender;
 
 @Entity
-public class User {
+public class User implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+
+	@Column(nullable = false)
 	private String name;
+
+	@Column(nullable = false)
 	private Integer age;
-	private Character gender;
+
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
+	private Gender gender;
+
+	@Column(nullable = false, unique = true, length = 100)
 	private String email;
+
+	@Column(nullable = false, unique = true)
+	private String username;
+
+	@Column(nullable = false)
 	private String password;
-	private Date birthday;
+
+	@Column(nullable = false, columnDefinition = "TIMESTAMP")
+	private LocalDate birthday;
+
 	private String role;
+
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+	private List<Book> books = new ArrayList<>();
 
 	public User() {
 		super();
 	}
 
-	public User(Integer id, String name, Integer age, Character gender, String email, String password, Date birthday,
-			String role) {
+	public User(Integer id, String name, Integer age, Gender gender, String email, String username, String password,
+			LocalDate birthday, String role) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.age = age;
 		this.gender = gender;
 		this.email = email;
+		this.username = username;
 		this.password = password;
 		this.birthday = birthday;
 		this.role = role;
@@ -62,11 +95,11 @@ public class User {
 		this.age = age;
 	}
 
-	public Character getGender() {
+	public Gender getGender() {
 		return gender;
 	}
 
-	public void setGender(Character gender) {
+	public void setGender(Gender gender) {
 		this.gender = gender;
 	}
 
@@ -86,11 +119,11 @@ public class User {
 		this.password = password;
 	}
 
-	public Date getBirthday() {
+	public LocalDate getBirthday() {
 		return birthday;
 	}
 
-	public void setBirthday(Date birthday) {
+	public void setBirthday(LocalDate birthday) {
 		this.birthday = birthday;
 	}
 
@@ -100,6 +133,22 @@ public class User {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public List<Book> getBooks() {
+		return books;
+	}
+
+	public void setBooks(List<Book> books) {
+		this.books = books;
 	}
 
 	@Override
